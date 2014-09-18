@@ -1,5 +1,5 @@
 {
-  "name": "javascript-byte",
+  "name": "javascript-bytes",
   "desc": "byte, hex, base64 manipulation in javascript",
   "version": "0.0.1",
   "devDependencies": {
