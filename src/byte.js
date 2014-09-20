@@ -40,7 +40,7 @@ function repeatingKeyXOR(input, key) {
         j++;
     }
 
-    return res;
+    return new ByteString(res);
 }
 
 function hexString(arr) {
