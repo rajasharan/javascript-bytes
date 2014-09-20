@@ -1,0 +1,8 @@
+{
+  "name": "javascript-bytes",
+  "desc": "byte, hex, base64 manipulation in javascript",
+  "version": "0.0.1",
+  "dependencies": {
+    "jquery": "~2.1.1"
+  }
+}
