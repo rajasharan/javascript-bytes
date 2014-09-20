@@ -26,6 +26,8 @@ function str_to_bytes(str) {
 }
 
 function repeatingKeyXOR(input, key) {
+    if(typeof(input) !== "string" || typeof(key) !== "string") throw new Error("argument(s) are not String");
+
     var inBytes = str_to_bytes(input);
     var keyBytes = str_to_bytes(key);
     var res = [];
@@ -114,7 +116,9 @@ function sortObjByValue(obj) {
 
 return {
     sortObjByValue: sortObjByValue,
-    breakSinglekeyXOR: breakSinglekeyXOR
+    breakSinglekeyXOR: breakSinglekeyXOR,
+    singlekeyXOR: singlekeyXOR,
+    repeatingKeyXOR: repeatingKeyXOR
 };
 
 }); //end of define
