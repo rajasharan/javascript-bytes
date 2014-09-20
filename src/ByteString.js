@@ -21,7 +21,9 @@ define(['./Base64'], function(Base64) {
     ByteString.prototype.hex = function() {
         if (!this.hexdata) {
             this.hexdata = this.data.map(function(val) {
-                return val.toString(16);
+                var hex = val.toString(16);
+                if (hex.length === 1) hex = '0' + hex;
+                return hex;
             }).reduce(function(prev, curr) {
                 return prev + curr;
             });
