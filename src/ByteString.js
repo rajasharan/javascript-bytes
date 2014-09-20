@@ -1,74 +1,82 @@
-var Base64 = require('./Base64');
-
-function ByteString(data) {
-    this.data = data.map(function(val) {
-        return val;
-    });
+if (typeof define !== 'function') {
+    var define = require('amdefine')(module);
 }
 
-ByteString.prototype.ascii = function() {
-    return this.data.map(function(val) {
-        return String.fromCharCode(val);
-    }).reduce(function(prev, curr) {
-        return prev + curr;
-    });
-};
+define(['./Base64'], function(Base64) {
+    var Base64 = require('./Base64');
+    function ByteString(data) {
+        this.data = data.map(function(val) {
+            return val;
+        });
+    }
 
-ByteString.prototype.hex = function() {
-    if (!this.hexdata) {
-        this.hexdata = this.data.map(function(val) {
-            return val.toString(16);
+    ByteString.prototype.ascii = function() {
+        return this.data.map(function(val) {
+            return String.fromCharCode(val);
         }).reduce(function(prev, curr) {
             return prev + curr;
         });
-    }
-    return this.hexdata;
-};
+    };
 
-ByteString.prototype.base64 = function() {
-    return Base64.encode(this.data);
-};
-
-ByteString.decodeHex = function(str) {
-    if(str.length % 2 !== 0 || str.length === 0 || typeof(str) !== "string") {
-        throw new Error("Invalid HEX string: " + str);
-    }
-    var start = 0;
-    var end = 2;
-    var s;
-    var res = [];
-    var num;
-    do {
-        s = str.slice(start, end);
-        num = parseInt(s, 16);
-        if(isNaN(num)) {
-            throw new Error("Invalid HEX char: " + s);
+    ByteString.prototype.hex = function() {
+        if (!this.hexdata) {
+            this.hexdata = this.data.map(function(val) {
+                return val.toString(16);
+            }).reduce(function(prev, curr) {
+                return prev + curr;
+            });
         }
-        res.push(num);
-        start = end;
-        end = end+2;
-    }
-    while(end <= str.length);
+        return this.hexdata;
+    };
 
-    return new ByteString(res);
-};
+    ByteString.prototype.base64 = function() {
+        return Base64.encode(this.data);
+    };
 
-ByteString.decodeBase64 = function(str) {
-    if(!str || str.trim().length === 0) {
-        throw new Error("Invalid STRING: " + str);
-    }
-    var decoded = Base64.decode(str);
-    return new ByteString(decoded);
-};
+    ByteString.decodeHex = function(str) {
+        if(str.length % 2 !== 0 || str.length === 0 || typeof(str) !== "string") {
+            throw new Error("Invalid HEX string: " + str);
+        }
+        var start = 0;
+        var end = 2;
+        var s;
+        var res = [];
+        var num;
+        do {
+            s = str.slice(start, end);
+            num = parseInt(s, 16);
+            if(isNaN(num)) {
+                throw new Error("Invalid HEX char: " + s);
+            }
+            res.push(num);
+            start = end;
+            end = end+2;
+        }
+        while(end <= str.length);
 
-ByteString.ascii = function(str) {
-    var data = str.split("").map(function(val) {
-        return val.charCodeAt(0);
-    });
+        return new ByteString(res);
+    };
 
-    return new ByteString(data);
-};
+    ByteString.decodeBase64 = function(str) {
+        if(!str || str.trim().length === 0) {
+            throw new Error("Invalid STRING: " + str);
+        }
+        var decoded = Base64.decode(str);
+        return new ByteString(decoded);
+    };
 
-if(typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
-    module.exports = ByteString;
-}
+    ByteString.ascii = function(str) {
+        var data = str.split("").map(function(val) {
+            return val.charCodeAt(0);
+        });
+
+        return new ByteString(data);
+    };
+
+    return ByteString;
+    /*
+     *if(typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+     *    module.exports = ByteString;
+     *}
+     */
+});

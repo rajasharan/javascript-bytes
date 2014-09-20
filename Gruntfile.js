@@ -3,8 +3,10 @@ module.exports = function(grunt) {
         pkg: grunt.file.readJSON('package.json'),
 
         watch: {
-            files: ['src/**/*.js', 'test/**/*.js'],
-            tasks: ['mochaTest']
+            test: {
+                files: ['src/**/*.js', 'test/**/*.js'],
+                tasks: ['mochaTest']
+            }
         },
 
         mochaTest: {
@@ -14,11 +16,22 @@ module.exports = function(grunt) {
                 },
                 src: ['test/**/*.js']
             }
+        },
+
+        connect: {
+            server: {
+                options: {
+                    port: 8000,
+                    keepalive: false //true
+                }
+            }
         }
     });
 
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-mocha-test');
+    grunt.loadNpmTasks('grunt-contrib-connect');
 
     grunt.registerTask('default', 'mochaTest');
+    grunt.registerTask('serve', ['connect:server', 'watch']);
 };
